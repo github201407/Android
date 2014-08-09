@@ -23,7 +23,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * ÍøÂçÊı¾İÇëÇó
  * 
- * @author cmingqun
+ * @author cmq
  * 
  */
 public class WebRequest {
