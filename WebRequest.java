@@ -21,7 +21,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 /**
- * ÍøÂçÊı¾İÇëÇó
+ * ç½‘ç»œæ•°æ®è¯·æ±‚
  * 
  * @author cmq
  * 
@@ -29,18 +29,18 @@ import org.apache.http.util.EntityUtils;
 public class WebRequest {
 
 	private String getRequest(String uri) {
-		// 1.ĞÂ½¨Ò»¸öÇëÇó
+		// 1.æ–°å»ºä¸€ä¸ªè¯·æ±‚
 		HttpGet httpGet = new HttpGet(uri);
-		// 2.½¨Á¢Ò»¸ö¿Í»§¶Ë
+		// 2.å»ºç«‹ä¸€ä¸ªå®¢æˆ·ç«¯
 		HttpClient httpClient = new DefaultHttpClient();
 		try {
-			// 3.Ê¹ÓÃhttpClient·¢ËÍÇëÇó
+			// 3.ä½¿ç”¨httpClientå‘é€è¯·æ±‚
 			HttpResponse httpResponse = httpClient.execute(httpGet);
-			// 4.»ñÈ¡½á¹û¼¯
+			// 4.è·å–ç»“æœé›†
 			HttpEntity httpEntity = httpResponse.getEntity();
-			// 5.¶ÁÈ¡ÄÚÈİ
+			// 5.è¯»å–å†…å®¹
 			InputStream inputStream = httpEntity.getContent();
-			// 6.ÄÚÈİ½á¹û
+			// 6.å†…å®¹ç»“æœ
 			
 			return getString(inputStream);
 		} catch (ClientProtocolException e) {
@@ -52,16 +52,16 @@ public class WebRequest {
 	}
 
 	public void postRequest(String uri) {
-		// 1.½¨Á¢ÇëÇó
+		// 1.å»ºç«‹è¯·æ±‚
 		HttpPost httpPost = new HttpPost(uri);
-		// 2.½¨Á¢ÇëÇóÊµÌå
-		// &word=15260663913
+		// 2.å»ºç«‹è¯·æ±‚å®ä½“
+		// &word
 		NameValuePair mNameValuePair = new BasicNameValuePair("user", "123");
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(mNameValuePair);
 		try {
 			HttpEntity httpEntity = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
-			// ÇëÇó²ÎÊıNameValuePair£¬Ìí¼Óµ½HttpPostÇëÇó
+			// è¯·æ±‚å‚æ•°NameValuePairï¼Œæ·»åŠ åˆ°HttpPostè¯·æ±‚
 			httpPost.setEntity(httpEntity);
 			//test uri
 			String path;
@@ -75,11 +75,11 @@ public class WebRequest {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		// 3.½¨Á¢¿Í»§¶Ë
+		// 3.å»ºç«‹å®¢æˆ·ç«¯
 		HttpClient httpClient = new DefaultHttpClient();
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpPost);
-			// ´¦ÀíhttpResponse
+			// å¤„ç†httpResponse
 			String result = EntityUtils.toString(httpResponse.getEntity(),
 					"GB2312");
 			System.out.println(result);
@@ -91,7 +91,7 @@ public class WebRequest {
 	}
 
 	/**
-	 * »ñÈ¡ÊÖ»úºÅÂë¹éÊôµØ,½ØÈ¡×Ö·û´®
+	 * è·å–æ‰‹æœºå·ç å½’å±åœ°,æˆªå–å­—ç¬¦ä¸²
 	 * 
 	 * @param str
 	 * @return
@@ -102,15 +102,15 @@ public class WebRequest {
 				+ "&uc_param_str=upssntdnvelami&sa=ib&st_1=111041&st_2=102041&pu=sz%40224_220%2Cta%40middle___3_537&idx=20000&tn_1=middle&tn_2=middle&ct_1=%E6%90%9C%E7%BD%91%E9%A1%B5";
 
 		String str = getRequest(uri);
-		int begin = str.indexOf("<span>ÊÖ»úºÅÂë</span>£º<span>");
-		int end = str.indexOf("ÊÖ»úºÅÂë¹éÊôµØÊı¾İÓÉ");
+		int begin = str.indexOf("<span>æ‰‹æœºå·ç </span>ï¼š<span>");
+		int end = str.indexOf("æ‰‹æœºå·ç å½’å±åœ°æ•°æ®ç”±");
 		String res = str.substring(begin, end);
 		System.out.println(res);
-		// <span>ÊÖ»úºÅÂë</span>£º<span>13900008888</span><br
-		// /><span>ĞÂ½®&#160;ÎÚÂ³Ä¾Æë&#160;ÖĞ¹úÒÆ¶¯</span>
+		// <span>æ‰‹æœºå·ç </span>ï¼š<span>13900008888</span><br
+		// /><span>æ–°ç–†&#160;ä¹Œé²æœ¨é½&#160;ä¸­å›½ç§»åŠ¨</span>
 		String location = res.substring(
 				res.indexOf("<span>", res.indexOf("<br />")) + 6,
-				res.indexOf("</span>", res.lastIndexOf("</span>")));// ĞÂ½®&#160;ÎÚÂ³Ä¾Æë&#160;ÖĞ¹úÒÆ¶¯
+				res.indexOf("</span>", res.lastIndexOf("</span>")));// æ–°ç–†&#160;ä¹Œé²æœ¨é½&#160;ä¸­å›½ç§»åŠ¨
 		String[] loc = location.split("&#160;");
 		// Map<String, String> mAdd = new HashMap<String, String>();
 		// mAdd.put("province", loc[0]);
@@ -120,7 +120,7 @@ public class WebRequest {
 	}
 
 	/**
-	 * ioÁ÷µÄ´¦Àí,·µ»Ø×Ö·û´®
+	 * ioæµçš„å¤„ç†,è¿”å›å­—ç¬¦ä¸²
 	 * 
 	 * @param inputStream
 	 * @return
